@@ -38,6 +38,7 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
 void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descriptors, string descriptorType)
 {
     // select appropriate descriptor
+    // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
     cv::Ptr<cv::DescriptorExtractor> extractor;
     if (descriptorType.compare("BRISK") == 0)
     {
@@ -48,11 +49,37 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 
         extractor = cv::BRISK::create(threshold, octaves, patternScale);
     }
-    else
+    else if (descriptorType.compare("BRIEF") == 0)
     {
 
-        //...
+         extractor = cv::xfeatures2d::BriefDescriptorExtractor::create();
     }
+    else if (descriptorType.compare("ORB") == 0)
+    {
+
+        extractor = cv::ORB::create();
+    }
+    else if (descriptorType.compare("FREAK") == 0)
+    {
+
+        extractor = cv::xfeatures2d::FREAK::create();
+    }
+    else if (descriptorType.compare("AKAZE") == 0)
+    {
+
+        extractor = cv::AKAZE::create();
+    }
+    else if (descriptorType.compare("SIFT") == 0)
+    {
+
+        extractor = cv::SIFT::create();
+    
+    }
+    else
+    {
+        cout << "Descriptor Invalid!!" << endl;
+    }
+    
 
     // perform feature description
     double t = (double)cv::getTickCount();
